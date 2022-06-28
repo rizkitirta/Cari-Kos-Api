@@ -17,7 +17,7 @@ class CreateFasilitasTable extends Migration
             $table->id();
             $table->string('judul');
             $table->integer('fasilitastable_id');
-            $table->integer('fasilitastable_type');
+            $table->string('fasilitastable_type');
             $table->timestamps();
         });
     }

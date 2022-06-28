@@ -16,11 +16,11 @@ class KosResource extends JsonResource
     {
         return [
             'nama' => $this->nama,
-            'kategori' => ,
-            'lokasi' => ,
-            'fasilitas' => ,
-            'sisa_kamar' => ,
-            'pemilik_kos' => ,
+            'kategori' => $this->whenLoaded('kategori'),
+            'lokasi' => $this->whenLoaded('kecamatan'),
+            'fasilitas' => $this->whenLoaded('fasilitas'),
+            'sisa_kamar' => $this->sisa_kamar,
+            'pemilik_kos' => $this->whenLoaded('user'),
         ]
     }
 }

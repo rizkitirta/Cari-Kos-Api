@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Kamar extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    
+    public function fasilitas()
+    {
+        return $this->morphMany(Fasilitas::class,'fasilitastable');
+    }
 }

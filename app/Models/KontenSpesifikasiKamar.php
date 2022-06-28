@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class KontenSpesifikasiKamar extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }

@@ -18,7 +18,6 @@ class CreateKosTable extends Migration
         Schema::create('kos', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('kategori_id');
             $table->string('nama');
             $table->text('deskripsi');
             $table->string('lintang');
@@ -35,7 +34,6 @@ class CreateKosTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('kategori_id')->references('id')->on('kategori');
         });
     }
 

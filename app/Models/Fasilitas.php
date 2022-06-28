@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Fasilitas extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    const TIPE  = [
+        "kos" => "Fasilitas Kos",
+        "kamar" => "Fasilitas Kamar"
+    ];
+
+    public function fasilitastable()
+    {
+       return $this->morphTo();
+    }
 }
