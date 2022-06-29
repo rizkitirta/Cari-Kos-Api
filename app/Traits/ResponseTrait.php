@@ -37,7 +37,7 @@ trait ResponseTrait
         $result['success'] = true;
         $result['message'] = $message;
         $result['data'] = $data;
-        $result['code'] = 200;
+        $result['code'] = $code;
 
         return response()->json($result, $this->code, [], JSON_PRETTY_PRINT);
     }
@@ -52,7 +52,7 @@ trait ResponseTrait
         $result['message'] = $message;
         $result['data'] = null;
         $result['code'] = $code;
-        
+
         return response()->json($result, $this->code, [], JSON_PRETTY_PRINT);
     }
 }

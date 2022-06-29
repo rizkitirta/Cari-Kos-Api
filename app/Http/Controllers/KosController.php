@@ -135,7 +135,7 @@ class KosController extends Controller
 
             DB::commit();
 
-            return $this->SuccessResponse("Berhasil membuat data", $kos);
+            return $this->SuccessResponse("Berhasil membuat data", $kos,201);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage(), [request()->user()]);
@@ -149,9 +149,13 @@ class KosController extends Controller
      * @param  \App\Models\kos  $kos
      * @return \Illuminate\Http\Response
      */
-    public function show(kos $kos)
+    public function show($id)
     {
-        //
+        $data = Kos::with(['user:id,name', 'kecamatan:id,name', 'kategori:id,nama', 'fasilitas.konten'])
+                ->find($id);
+
+            // dd($data->toArray());
+            return $this->SuccessResponse("Berhasil mengambil data", $data);
     }
 
     /**
