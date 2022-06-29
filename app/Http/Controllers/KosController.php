@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\KosResource;
 use App\Models\Fasilitas;
 use App\Models\Kategori;
 use App\Models\KategoriKos;
@@ -27,11 +28,39 @@ class KosController extends Controller
     {
         $perPage = $request->get('perPage') ?? 10;
         try {
-            $data = Kos::with(['user:id,name', 'kecamatan:id,name', 'kategori:id,nama'])
+            $data = Kos::with(['user:id,name', 'kecamatan:id,name', 'kategori:id,nama', 'fasilitas.konten'])
+                ->withCount('kamar')
                 ->FilterKategori($request)
                 ->FilterLokasi($request)
-                ->paginate($perPage);
+                ->simplePaginate($perPage)
+                ->map(function ($d) {
+                    return [
+                        'id' => $d->id,
+                        'nama' => $d->nama,
+                        'pemilik_kos' => $d->user->name,
+                        'sisa_kamar' => $d->kamar_count,
+                        'lokasi' => [
+                            'id' => $d->kecamatan->id,
+                            'name' => $d->kecamatan->name,
+                        ],
+                        'kategori' => $d->kategori->map(function ($ktg) {
+                            return ['id' => $ktg->id, 'nama' => $ktg->nama];
+                        }),
+                        'fasilitas' => $d->fasilitas->map(function ($fsl) {
+                            $arr = [];
+                            foreach ($fsl->konten as $ktn) {
+                                $arr[] = [
+                                    'id' => $ktn->id,
+                                    'konten' => $ktn->konten,
+                                ];
+                            }
 
+                            return $arr;
+                        })[0]
+                    ];
+                });
+
+            // dd($data->toArray());
             return $this->SuccessResponse("Berhasil mengambil data", $data);
         } catch (\Exception $e) {
             Log::error($e->getMessage(), [request()->user()]);

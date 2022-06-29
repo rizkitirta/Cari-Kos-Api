@@ -19,4 +19,9 @@ class Fasilitas extends Model
     {
        return $this->morphTo();
     }
+
+    public function konten()
+    {
+        return $this->hasMany(KontenFasilitas::class,'fasilitas_id','id');
+    }
 }
